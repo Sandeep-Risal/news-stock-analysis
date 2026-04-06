@@ -9,7 +9,7 @@ This project builds a scalable big data pipeline to analyze the impact of news s
 - Apache Hadoop (HDFS)
 - PySpark
 - Python (TextBlob for NLP)
-- Streamlit (Dashboard)
+<!-- - Streamlit (Dashboard) -->
 
 ## ⚙️ Pipeline
 
@@ -19,7 +19,7 @@ This project builds a scalable big data pipeline to analyze the impact of news s
 4. Feature engineering on stock data
 5. Data integration (join on date)
 6. Correlation analysis
-7. Visualization dashboard
+<!-- 7. Visualization dashboard -->
 
 ## 📊 Output
 

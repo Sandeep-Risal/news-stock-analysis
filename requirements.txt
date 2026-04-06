@@ -1,0 +1,5 @@
+pyspark
+textblob
+nltk
+pandas
+matplotlib

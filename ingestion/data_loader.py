@@ -1,15 +1,14 @@
+from pyspark.sql import SparkSession
+
 class DataLoader:
-    def __init__(self, spark):
+    def __init__(self, spark: SparkSession):
         self.spark = spark
-    
-    def load_data (self, path :str, fileType:str):
-        match fileType:
+
+    def load_data(self, path: str, file_type: str):
+        match file_type:
             case "json":
-                return self.spark.read.json(path)
+                return self.spark.read.option("multiLine", "false").json(path)
             case "csv":
-                return self.spark.read.csv(path , header=True, inferSchema = True)
+                return self.spark.read.csv(path, header=True, inferSchema=True)
             case _:
-                return ValueError(f"Invalid file type: {fileType}")
-
-
-    
+                raise ValueError(f"Unsupported file type: {file_type}")  # ✅ raise not return

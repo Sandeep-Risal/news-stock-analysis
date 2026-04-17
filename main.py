@@ -12,13 +12,25 @@ def main():
 
     # Load Data
     loader = DataLoader(spark)
-    news_df = loader.load_data(Config.NEWS_HDFS_PATH , "json")
+    news_df = loader.load_data(Config.NEWS_HDFS_PATH , "csv")
     stock_df = loader.load_data(Config.STOCK_HDFS_PATH , "csv")
 
     #Clean
     cleaner = DataCleaner()
     news_df = cleaner.clean_news_data(news_df)
     stock_df = cleaner.clean_stock_data(stock_df)
+
+    # After cleaning
+    print("=== NEWS SAMPLE ===")
+    news_df.show(3)
+    print("News date range:")
+    news_df.selectExpr("min(date)", "max(date)").show()
+
+    print("=== STOCK SAMPLE ===")
+    stock_df.show(3)
+    print("Stock date range:")
+    stock_df.selectExpr("min(date)", "max(date)").show()
+
 
     #Sentiment
     sentiment = SentimentAnalyzer()
@@ -33,10 +45,21 @@ def main():
     daily_sentiment = integrator.aggregate_sentiment(news_df)
     final_df = integrator.join_data(daily_sentiment, stock_df)
 
+    # After aggregation
+    print("=== SENTIMENT SAMPLE ===")
+    daily_sentiment.show(3)
+    print("Sentiment row count:", daily_sentiment.count())
+
     #Analysis
     analyzer = Analyzer()
     corr = analyzer.compute_correlation(final_df)
     print("Correlation: ", corr)
+
+    print("Final DF count:", final_df.count())
+    final_df.printSchema()
+    final_df.show(5)
+    daily_sentiment.show(5)
+    stock_df.show(5)
 
     #Save
     writer = DataWriter()

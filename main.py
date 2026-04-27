@@ -20,7 +20,6 @@ def main():
     news_df = cleaner.clean_news_data(news_df)
     stock_df = cleaner.clean_stock_data(stock_df)
 
-    # After cleaning
     print("=== NEWS SAMPLE ===")
     news_df.show(3)
     print("News date range:")
@@ -45,7 +44,6 @@ def main():
     daily_sentiment = integrator.aggregate_sentiment(news_df)
     final_df = integrator.join_data(daily_sentiment, stock_df)
 
-    # After aggregation
     print("=== SENTIMENT SAMPLE ===")
     daily_sentiment.show(3)
     print("Sentiment row count:", daily_sentiment.count())
